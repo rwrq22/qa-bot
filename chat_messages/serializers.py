@@ -7,6 +7,7 @@ class MessageSerializer(serializers.ModelSerializer):
         model = Message
         fields = (
             "pk",
-            "text",
+            "question",
             "response",
         )
+        read_only_fields = ["chat_room", "response"]

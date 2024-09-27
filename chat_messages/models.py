@@ -1,5 +1,6 @@
 from django.db import models
 from common.models import CommonModel
+from chat_rooms.models import ChatRoom
 import os, json
 import numpy as np
 
@@ -118,22 +119,22 @@ def get_answer(question, n):
 
 
 class Message(CommonModel):
-    text = models.TextField()
+    question = models.TextField()
     response = models.TextField(
         default="",
     )
+    chat_room = models.ForeignKey(ChatRoom, on_delete=models.SET_NULL, null=True)
 
     ########### 답변 생성 함수(BERT Fine_Tuned 버전) ############
     def generate_response(self):
-        response = get_answer(self.text, 3)
+        response = get_answer(self.question, 3)
         if response == "-1":
             return "잘 모르겠습니다."
         else:
             return response
-        """ response = get_answer(self.text, 5)
+        """ response = get_answer(self.question, 5)
         response = str(response[0])
-        return response[:1000]
-        return response """
+        return response[:1000]"""
 
     def save(self, *args, **kwargs):
         if not self.pk:
@@ -143,7 +144,7 @@ class Message(CommonModel):
     def __str__(self) -> str:
         return "Messages"
 
-    ########### 답변 생성 함수(openai 버전, 현재 Expired 상태, 사용 불가) ############
+    ########### 답변 생성 함수(openai 버전, 현재 사용 불가) ############
     """ def generate_random_response(self):
         completion = openai.ChatCompletion.create(
             model="gpt-3.5-turbo",
@@ -154,7 +155,7 @@ class Message(CommonModel):
                 },
                 {
                     "role": "user",
-                    "content": f"{self.text}",
+                    "content": f"{self.question}",
                 },
             ],
         )
