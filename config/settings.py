@@ -22,7 +22,9 @@ SECRET_KEY = env("SECRET_KEY")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = "RENDER" not in os.environ
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    "localhost",
+]
 RENDER_EXTERNAL_HOSTNAME = os.environ.get("RENDER_EXTERNAL_HOSTNAME")
 if RENDER_EXTERNAL_HOSTNAME:
     ALLOWED_HOSTS.append(RENDER_EXTERNAL_HOSTNAME)
@@ -167,6 +169,9 @@ if DEBUG:
     SESSION_COOKIE_DOMAIN = None  # 동일 도메인 내에서만 쿠키 공유
 else:
     SESSION_COOKIE_DOMAIN = ".onrender.com"
+    CSRF_COOKIE_DOMAIN = ".onrender.com"
+    SESSION_COOKIE_SECURE = True
+    SESSION_COOKIE_SAMESITE = "None"
 
 
 """ ASGI_APPLICATION = "config.asgi.application" """
