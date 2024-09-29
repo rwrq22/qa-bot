@@ -23,6 +23,7 @@ SECRET_KEY = env("SECRET_KEY")
 DEBUG = "RENDER" not in os.environ
 
 ALLOWED_HOSTS = [
+    "https://qabot-dlq3.onrender.com",
     "localhost",
     "127.0.0.1",
 ]
