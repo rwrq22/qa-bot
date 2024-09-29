@@ -60,7 +60,6 @@ cover/
 local_settings.py
 db.sqlite3
 db.sqlite3-journal
-settings.py
 
 # Flask stuff:
 instance/
@@ -154,4 +153,5 @@ cython_debug/
 
 # MacOS
 .DS_Store
+
 
