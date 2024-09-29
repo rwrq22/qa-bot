@@ -2,11 +2,11 @@
 # Exit on error
 set -o errexit
 
-# Modify this line as needed for your package manager (pip, poetry, etc.)
-poetry install 
-
-# Convert static asset files
+pip install --upgrade pip
+pip install poetry==1.2.0
+rm poetry.lock
+poetry lock
+python -m poetry install
+pip install --force-reinstall -U setuptools
 python manage.py collectstatic --no-input
-
-# Apply any outstanding database migrations
 python manage.py migrate

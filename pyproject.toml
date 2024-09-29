@@ -4,7 +4,6 @@ version = "0.1.0"
 description = ""
 authors = ["rwrq22 <61651734+rwrq22@users.noreply.github.com>"]
 readme = "README.md"
-packages = [{include = "qa-bot"}]
 
 [tool.poetry.dependencies]
 python = ">=3.10,<3.11"
