@@ -1,15 +1,17 @@
 from django.db import models
 from common.models import CommonModel
 from chat_rooms.models import ChatRoom
-import os, json
+import json
 import numpy as np
+from pathlib import Path
 
 # GPT-3.5 api
 """ import openai
-openai.api_key = os.getenv("OPENAI_API_KEY") """
+
+openai.api_key = env("OPENAI_API_KEY") """
 
 # base-model, tokenizer, classifier-model
-import torch
+""" import torch
 from transformers import BertForSequenceClassification, BertModel
 from kobert_tokenizer import KoBERTTokenizer
 
@@ -92,10 +94,6 @@ def sentences_predict(sent_A, sent_B):
     logits = logits.detach().cpu().numpy()
     result = np.argmax(logits)
 
-    # if result == 0:
-    #   result = 'non_similar'
-    # elif result == 1:
-    #   result = 'similar'
     return result
 
 
@@ -116,6 +114,7 @@ def get_answer(question, n):
             return ir_answer  # 정답 반환
     return "-1"  # "잘 모름"
     # return chatbot_Answer[results[0][0]]  # "몰라도 반환"
+ """
 
 
 class Message(CommonModel):
@@ -127,14 +126,14 @@ class Message(CommonModel):
 
     ########### 답변 생성 함수(BERT Fine_Tuned 버전) ############
     def generate_response(self):
-        response = get_answer(self.question, 3)
-        if response == "-1":
+        response = "테스트"
+        """response = get_answer(self.question, 3)"""
+        """ response = self.generate_random_response() """
+        """ if response == "-1":
             return "잘 모르겠습니다."
         else:
-            return response
-        """ response = get_answer(self.question, 5)
-        response = str(response[0])
-        return response[:1000]"""
+            return response """
+        return response
 
     def save(self, *args, **kwargs):
         if not self.pk:
@@ -144,8 +143,9 @@ class Message(CommonModel):
     def __str__(self) -> str:
         return "Messages"
 
-    ########### 답변 생성 함수(openai 버전, 현재 사용 불가) ############
+    ########### 답변 생성 함수(openai 버전, 사용 불가) ############
     """ def generate_random_response(self):
+        print("run!")
         completion = openai.ChatCompletion.create(
             model="gpt-3.5-turbo",
             messages=[
