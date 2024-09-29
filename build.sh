@@ -1,12 +1,12 @@
 #!/usr/bin/env bash
 # Exit on error
 set -o errexit
-
 pip install --upgrade pip
-pip install poetry==1.2.0
-rm poetry.lock
-poetry lock
-python -m poetry install
+
+poetry install
 pip install --force-reinstall -U setuptools
+# Convert static asset files
 python manage.py collectstatic --no-input
+
+# Apply any outstanding database migrations
 python manage.py migrate
