@@ -163,7 +163,10 @@ CORS_ALLOW_CREDENTIALS = True
 
 SESSION_ENGINE = "django.contrib.sessions.backends.db"
 SESSION_COOKIE_NAME = "sessionid"
-SESSION_COOKIE_DOMAIN = None  # 동일 도메인 내에서만 쿠키 공유
+if DEBUG:
+    SESSION_COOKIE_DOMAIN = None  # 동일 도메인 내에서만 쿠키 공유
+else:
+    SESSION_COOKIE_DOMAIN = ".onrender.com"
 
 
 """ ASGI_APPLICATION = "config.asgi.application" """
