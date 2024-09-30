@@ -178,3 +178,4 @@ else:
         traces_sample_rate=1.0,
         profiles_sample_rate=1.0,
     )
+    USE_X_FORWARDED_HOST = True
