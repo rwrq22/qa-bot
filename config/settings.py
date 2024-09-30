@@ -4,6 +4,7 @@ import dj_database_url
 
 
 import environ
+import sentry_sdk
 
 env = environ.Env()
 
@@ -23,7 +24,7 @@ SECRET_KEY = env("SECRET_KEY")
 DEBUG = "RENDER" not in os.environ
 
 ALLOWED_HOSTS = [
-    "https://qabot-dlq3.onrender.com",
+    "backend.qabotjs.xyz",
     "localhost",
     "127.0.0.1",
 ]
@@ -160,8 +161,8 @@ if DEBUG:
     CORS_ALLOWED_ORIGINS = ["http://127.0.0.1:3000"]
     CSRF_TRUSTED_ORIGINS = ["http://127.0.0.1:3000"]
 else:
-    CORS_ALLOWED_ORIGINS = ["https://qa-bot-ui.onrender.com"]
-    CSRF_TRUSTED_ORIGINS = ["https://qa-bot-ui.onrender.com"]
+    CORS_ALLOWED_ORIGINS = ["https://qabotjs.xyz"]
+    CSRF_TRUSTED_ORIGINS = ["https://qabotjs.xyz"]
 
 CORS_ALLOW_CREDENTIALS = True
 
@@ -170,7 +171,10 @@ SESSION_COOKIE_NAME = "sessionid"
 if DEBUG:
     SESSION_COOKIE_DOMAIN = None  # 동일 도메인 내에서만 쿠키 공유
 else:
-    SESSION_COOKIE_DOMAIN = ".onrender.com"
-    CSRF_COOKIE_DOMAIN = ".onrender.com"
-    SESSION_COOKIE_SECURE = True
-    SESSION_COOKIE_SAMESITE = "None"
+    SESSION_COOKIE_DOMAIN = ".qabotjs.xyz"
+    CSRF_COOKIE_DOMAIN = ".qabotjs.xyz"
+    sentry_sdk.init(
+        dsn="https://766b726097bb703cb3da33d1390ea5e8@o4508039480737792.ingest.us.sentry.io/4508039483752448",
+        traces_sample_rate=1.0,
+        profiles_sample_rate=1.0,
+    )

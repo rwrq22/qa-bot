@@ -37,3 +37,7 @@ class ChatRooms(APIView):
         chat_room = ChatRoom.objects.get(session_key=session_key)
         chat_room.delete()
         return Response(status=HTTP_204_NO_CONTENT)
+
+
+def trigger_error(request):
+    division_by_zero = 1 / 0
