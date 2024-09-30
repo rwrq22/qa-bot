@@ -1,10 +1,7 @@
-import os
-from pathlib import Path
+import os, environ
 import dj_database_url
-
-
-import environ
 import sentry_sdk
+from pathlib import Path
 
 env = environ.Env()
 
@@ -12,9 +9,6 @@ env = environ.Env()
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 environ.Env.read_env(os.path.join(BASE_DIR, ".env"))
-
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 
 # SECURITY WARNING: keep the secret key used in production secret!
@@ -34,7 +28,6 @@ if RENDER_EXTERNAL_HOSTNAME:
 
 
 # Application definition
-
 THIRD_PARTY_APPS = [
     "rest_framework",
     "corsheaders",
@@ -44,12 +37,9 @@ CUSTOM_APPS = [
     "common.apps.CommonConfig",
     "chat_messages.apps.ChatMessagesConfig",
     "chat_rooms.apps.ChatRoomsConfig",
-    "inputs.apps.InputsConfig",
 ]
 
 SYSTEM_APPS = [
-    # "channels",
-    # "daphne",
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
@@ -112,9 +102,6 @@ else:
     }
 
 
-# Password validation
-# https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
-
 AUTH_PASSWORD_VALIDATORS = [
     {
         "NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator",
@@ -143,17 +130,12 @@ USE_I18N = True
 USE_TZ = True
 
 
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/4.2/howto/static-files/
-
 STATIC_URL = "/static/"
 
 if not DEBUG:
     STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
     STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
-# Default primary key field type
-# https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
@@ -169,7 +151,7 @@ CORS_ALLOW_CREDENTIALS = True
 SESSION_ENGINE = "django.contrib.sessions.backends.db"
 SESSION_COOKIE_NAME = "sessionid"
 if DEBUG:
-    SESSION_COOKIE_DOMAIN = None  # 동일 도메인 내에서만 쿠키 공유
+    SESSION_COOKIE_DOMAIN = None
 else:
     SESSION_COOKIE_DOMAIN = ".qabotjs.xyz"
     CSRF_COOKIE_DOMAIN = ".qabotjs.xyz"
@@ -178,4 +160,3 @@ else:
         traces_sample_rate=1.0,
         profiles_sample_rate=1.0,
     )
-    USE_X_FORWARDED_HOST = True
