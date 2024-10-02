@@ -127,7 +127,7 @@ class Message(CommonModel):
 
     ########### 답변 생성 함수(BERT Fine_Tuned 버전) ############
     def generate_response(self):
-        response = "테스트"
+        response = return_top_n_idx(self.question, 3)
         """response = get_answer(self.question, 3)"""
         """ response = self.generate_random_response() """
         """ if response == "-1":
