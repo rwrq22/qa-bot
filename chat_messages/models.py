@@ -3,7 +3,6 @@ from common.models import CommonModel
 from chat_rooms.models import ChatRoom
 import json
 import numpy as np
-from pathlib import Path
 
 # GPT-3.5 api
 """ import openai
@@ -11,14 +10,17 @@ from pathlib import Path
 openai.api_key = env("OPENAI_API_KEY") """
 
 # base-model, tokenizer, classifier-model
-""" import torch
-from transformers import BertForSequenceClassification, BertModel
+import torch
+from transformers import BertModel
 from kobert_tokenizer import KoBERTTokenizer
 
+
 device = torch.device("cpu")
-MODEL_NAME = "bert_lib_v2"
+""" import BertForSequenceClassification """
+
+""" MODEL_NAME = "bert_lib_v2"
 classifier_model = BertForSequenceClassification.from_pretrained(MODEL_NAME)
-classifier_model.to(device)
+classifier_model.to(device) """
 tokenizer = KoBERTTokenizer.from_pretrained("skt/kobert-base-v1")
 base_model = BertModel.from_pretrained("skt/kobert-base-v1")
 
@@ -72,7 +74,7 @@ def return_top_n_idx(question, n):
 
 # predict 함수
 # 0: "non_similar", 1: "similar"
-def sentences_predict(sent_A, sent_B):
+""" def sentences_predict(sent_A, sent_B):
     classifier_model.eval()
     tokenized_sent = tokenizer(
         sent_A,
@@ -94,7 +96,7 @@ def sentences_predict(sent_A, sent_B):
     logits = logits.detach().cpu().numpy()
     result = np.argmax(logits)
 
-    return result
+    return result """
 
 
 import pandas as pd
@@ -105,16 +107,15 @@ chatbot_Answer = data["A"].values
 
 
 # 답변 생성 함수
-def get_answer(question, n):
+""" def get_answer(question, n):
     results = return_top_n_idx(question, n)
     for result in results:
         ir_answer = chatbot_Answer[result[0]]
         ir_question = chatbot_Question[result[0]]
         if sentences_predict(question, ir_question) == 1:
             return ir_answer  # 정답 반환
-    return "-1"  # "잘 모름"
-    # return chatbot_Answer[results[0][0]]  # "몰라도 반환"
- """
+    return "-1"  # "잘 모름" """
+# return chatbot_Answer[results[0][0]]  # "몰라도 반환"
 
 
 class Message(CommonModel):
