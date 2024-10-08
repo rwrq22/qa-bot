@@ -1,19 +1,28 @@
+# Third party packages
 from rest_framework.response import Response
 from rest_framework.views import APIView
-
-from .models import Message
-from chat_rooms.models import ChatRoom
-
-# from .models import ChatResponse
-from .serializers import MessageSerializer
-
+from rest_framework.permissions import IsAdminUser, AllowAny
 from rest_framework.status import (
     HTTP_204_NO_CONTENT,
     HTTP_400_BAD_REQUEST,
 )
 
+# Django applications
+from .models import Message
+from chat_rooms.models import ChatRoom
+
+# Other custom applications
+from .serializers import MessageSerializer
+
 
 class Messages(APIView):
+    def get_permissions(self):
+        if self.request.method == "DELETE":
+            permission_classes = [IsAdminUser]
+        else:
+            permission_classes = [AllowAny]
+        return [permission() for permission in permission_classes]
+
     def get(self, request):  # session key 확인 후 데이터 가져옵니다
         session_key = request.session.session_key
         if not session_key:

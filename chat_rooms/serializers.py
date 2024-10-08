@@ -10,4 +10,3 @@ class ChatRoomSerializer(serializers.ModelSerializer):
     class Meta:
         model = ChatRoom
         fields = ("pk", "session_key", "messages")
-        read_only_fields = ("pk", "messages")
