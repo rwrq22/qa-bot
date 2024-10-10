@@ -43,7 +43,7 @@ def get_model_answer(question, n):
 
 
 class Message(CommonModel):
-    question = models.TextField()
+    question = models.TextField(max_length=300)
     response = models.TextField(
         default="",
     )
@@ -61,4 +61,4 @@ class Message(CommonModel):
         super().save(*args, **kwargs)
 
     def __str__(self) -> str:
-        return "Messages"
+        return f"{self.question[:30]}: {self.created_at}"

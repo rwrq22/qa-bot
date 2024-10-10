@@ -25,25 +25,21 @@ class Messages(APIView):
 
     def get(self, request):  # session key 확인 후 데이터 가져옵니다
         session_key = request.session.session_key
-        if not session_key:
-            return Response(
-                {"error": "Session does not exist."}, status=HTTP_400_BAD_REQUEST
-            )
         chat_room = ChatRoom.objects.get(session_key=session_key)
         all_messages = Message.objects.filter(chat_room=chat_room)
         serializer = MessageSerializer(all_messages, many=True)
         return Response(serializer.data)
 
     def post(self, request):
-        session_key = request.session.session_key
-        if not session_key:
-            request.session.create()
+        try:
             session_key = request.session.session_key
-        chat_room = ChatRoom.objects.get(session_key=session_key)
-        serializer = MessageSerializer(data=request.data)
-        if serializer.is_valid():
-            new_message = serializer.save(chat_room=chat_room)
-            return Response(MessageSerializer(new_message).data)
+            chat_room = ChatRoom.objects.get(session_key=session_key)
+            serializer = MessageSerializer(data=request.data)
+            if serializer.is_valid():
+                new_message = serializer.save(chat_room=chat_room)
+                return Response(MessageSerializer(new_message).data)
+        except Exception as e:
+            return Response(Response({"error": e}, status=HTTP_400_BAD_REQUEST))
 
     def delete(self, request):
         all_messages = Message.objects.all()
